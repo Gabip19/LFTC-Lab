@@ -19,7 +19,7 @@
 <op_relational> ::= != | == | < | > | <= | >=
 <instr_if> ::= if ( <conditie> ) <corp>
 
-ID ::= (_ | a | b | ... | z | A | B | ... | Z)(_ | a | b | ... | z | A | B | ... | Z | 0 | 1 | ... | 9 | -){,249}
+ID ::= (_ | a | b | ... | z | A | B | ... | Z)(_ | a | b | ... | z | A | B | ... | Z | 0 | 1 | ... | 9 | -){0,249}
 CONST ::= <const_int> | <const_float> | <const_string>
 <const_int> ::= (+ | -)?(0 | 1 | ... | 9)+
 <const_float> ::= (+ | -)?(0 | 1 | ... | 9)+ | (+ | -)?(0 | 1 | ... | 9)+\.(0 | 1 | ... | 9)*
