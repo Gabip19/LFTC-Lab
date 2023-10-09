@@ -1,5 +1,5 @@
 <program> ::= <antet_program> <functie>
-<antet_program> ::= #include <iostream> \n using namespace std;
+<antet_program> ::= #include "<"iostream">" \n using namespace std;
 <functie> ::= <antet_functie> <corp>
 <antet_functie> ::= <tip> ID (<lista_decl>) | <tip> ID ()
 <tip> ::= int | float | string
