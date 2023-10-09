@@ -1,0 +1,20 @@
+<program> ::= <antet_program> <functie>
+<antet_program> ::= #include <iostream> \n using namespace std;
+<functie> ::= <antet_functie> <corp>
+<antet_functie> ::= <tip> ID (<lista_decl>) | <tip> ID ()
+<tip> ::= int | float | string
+<lista_decl_fct> ::= <declarare_fct> , <lista_decl_fct> | <declarare_fct>
+<declarare_fct> ::= <tip> ID
+<corp> ::= { <instr_compusa> }
+<instr_compusa> ::= <instr> <instr_compusa> | <instr>
+<instr> ::= <declarare> | <atribuire> | <instr_citire> | <instr_afisare> | <instr_while> | <instr_if>
+<declarare> ::= <tip> ID ; | <tip> <atribuire>
+<atribuire> ::= ID = <expr_aritmetica> ;
+<instr_citire> ::= cin >> ID ;
+<instr_afisare> ::= cout << <expr_aritmetica> ;
+<expr_aritmetica> ::= <expr_aritmetica> <op_artimetic> <expr_aritmetica> | ID | CONST
+<op_artimetic> ::= + | - | * | / | %
+<instr_while> ::= while ( <conditie> ) <corp>
+<conditie> ::= <expr_aritmetica> <op_relational> <expr_aritmetica> | <expr_aritmetica>
+<op_relational> ::= != | == | < | > | <= | >=
+<instr_if> ::= if ( <conditie> ) <corp>
