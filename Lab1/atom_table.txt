@@ -28,8 +28,13 @@ while : 21
 <= : 26
 >= : 27
 if : 28
-#include : 29
-<iostream> : 30
-using : 31
-namespace : 32
-std : 33
+switch : 29
+case : 30
+: : 31
+break : 32
+struct: 33
+#include : 34
+<iostream> : 35
+using : 36
+namespace : 37
+std : 38
