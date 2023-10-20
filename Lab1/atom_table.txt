@@ -32,7 +32,7 @@ switch : 29
 case : 30
 : : 31
 break : 32
-struct: 33
+struct : 33
 #include : 34
 <iostream> : 35
 using : 36
