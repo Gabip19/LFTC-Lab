@@ -77,7 +77,7 @@ public class HashTable<T>
         int newIndex = (index + 1) % _slots.Length;
         while (newIndex != index)
         {
-            if (_slots[index] == null)
+            if (_slots[newIndex] == null)
             {
                 return -1;
             }
