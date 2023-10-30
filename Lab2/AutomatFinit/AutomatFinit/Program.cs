@@ -1,0 +1,3 @@
+﻿using AutomatFinit;
+
+Main.StartApp();
