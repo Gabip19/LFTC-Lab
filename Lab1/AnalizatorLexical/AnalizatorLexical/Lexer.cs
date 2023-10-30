@@ -6,10 +6,16 @@ public class Lexer
 {
     private readonly IDictionary<string, int> _atomTable;
     private readonly char[] _separators = { ';', '(', ')', ',', '{', '}' };
+    public readonly HashTable<string> ConstantsTable;
+    public readonly HashTable<string> IdsTable;
+    public List<KeyValuePair<int, int?>> Fip { get; }
     
     public Lexer(IDictionary<string, int> atomTable)
     {
         _atomTable = atomTable;
+        ConstantsTable = new StringHashTable();
+        IdsTable = new StringHashTable();
+        Fip = new List<KeyValuePair<int, int?>>();
     }
     
     public IEnumerable<string> GetTokens(string pathToProgram)
@@ -44,11 +50,19 @@ public class Lexer
     {
         if (IsKeyword(token))
         {
+            Fip.Add(new KeyValuePair<int, int?>(_atomTable[token], null));
             return;
         }
         
         if (IsConstant(token))
         {
+            var constCode = ConstantsTable.Contains(token);
+            if (constCode == -1)
+            {
+                constCode = ConstantsTable.Add(token);
+            }
+            Fip.Add(new KeyValuePair<int, int?>(1, constCode));
+            
             return;
         }
         
@@ -58,6 +72,14 @@ public class Lexer
             {
                 throw new InvalidTokenException("Identifier can not be longer than 250 characters.");
             }
+
+            var idCode = IdsTable.Contains(token);
+            if (idCode == -1)
+            {
+                idCode = IdsTable.Add(token);
+            }
+            Fip.Add(new KeyValuePair<int, int?>(0, idCode));
+            
             return;
         }
 

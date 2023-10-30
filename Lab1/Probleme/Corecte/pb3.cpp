@@ -11,7 +11,7 @@ int main() {
     {
         cin >> x;
         sum = sum + x;
-        n = n -1;
+        n = n - 1;
     }
 
     cout << sum;
