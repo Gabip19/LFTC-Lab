@@ -7,7 +7,6 @@ public class FiniteAutomata
     private readonly Dictionary<Pair, string> _transitions;
     private readonly string _initialState;
     private readonly HashSet<string> _finalStates;
-    private readonly HashSet<string> _digits = new();
 
     public FiniteAutomata(
         HashSet<string> states, 
@@ -22,8 +21,6 @@ public class FiniteAutomata
         _transitions = transitions;
         _initialState = initialState;
         _finalStates = finalStates;
-
-        _digits.UnionWith(new List<string> { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9" });
     }
 
     public bool CheckAfd()
@@ -59,26 +56,38 @@ public class FiniteAutomata
 
     public string FindLongestPrefix(string sequence)
     {
-        var initialState = _initialState;
-        var prefix = "";
+        var currentState = _initialState;
+        var currentPrefix = string.Empty;
+        string? longestPrefix = null;
 
-        for (var i = 0; i < sequence.Length; i++)
+        foreach (var chr in sequence)
         {
-            var character = sequence.Substring(i, 1);
-            var value = _digits.Contains(character) ? "cifra" : character;
-            var currentPair = new Pair(initialState, value);
-
+            var currentPair = new Pair(currentState, chr.ToString());
+            if (_finalStates.Contains(currentState))
+            {
+                longestPrefix = currentPrefix;
+            }
             if (_transitions.TryGetValue(currentPair, out var next))
             {
-                initialState = next;
-                prefix += character;
+                currentState = next;
+                currentPrefix += chr;
             }
             else
             {
                 break;
             }
         }
-        return prefix;
+
+        if (_finalStates.Contains(currentState))
+        {
+            longestPrefix = currentPrefix;
+        }
+        
+        if (longestPrefix is null)
+        {
+            return string.Empty;
+        }
+        return longestPrefix == string.Empty ? "eps" : longestPrefix;
     }
 
     public void PrintStatesSet()

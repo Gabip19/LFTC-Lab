@@ -90,7 +90,7 @@ public static class Main
                         Console.Write("Sequence: ");
                         var sequence = Console.ReadLine()!;
                         var prefix = _af.FindLongestPrefix(sequence);
-                        Console.WriteLine("Longest accepted prefix: " + prefix);
+                        Console.WriteLine("Longest accepted prefix: " + (string.IsNullOrEmpty(prefix) ? "Doesn't exist" : prefix));
                     }
                     else
                         Console.WriteLine("Non-determinist finite automata.\n");
@@ -130,43 +130,43 @@ public static class Main
     private static void ReadFromFile()
     {
         Console.Write("File path: ");
-        var filePath = Console.ReadLine()!;
+        // Console.WriteLine(Directory.GetCurrentDirectory());
+        var pathPrefix = @"..\..\..\..\..\";
+        var path = Console.ReadLine()!;
+        var filePath = pathPrefix + path;
         try
         {
             var lines = File.ReadAllLines(filePath);
-            foreach (var line in lines)
+            var data = lines[0].Split(' ');
+            foreach (var d in data)
             {
-                var data = line.Split(' ');
-                foreach (var d in data)
-                {
-                    _states.Add(d);
-                }
-
-                _initialState = lines[1];
-
-                data = lines[2].Split(' ');
-                foreach (var d in data)
-                {
-                    _finalStates.Add(d);
-                }
-
-                var num = int.Parse(lines[3]);
-                var lineIndex = 4;
-
-                for (var i = 0; i < num; i++)
-                {
-                    data = lines[lineIndex].Split(' ');
-                    foreach (var chr in data[2])
-                    {
-                        _alphabet.Add(chr.ToString());
-                        var pair = new Pair(data[0], chr.ToString());
-                        _transitions[pair] = data[1];
-                    }
-                    lineIndex++;
-                }
-
-                _af = new FiniteAutomata(_states, _alphabet, _transitions, _initialState, _finalStates);
+                _states.Add(d);
             }
+
+            _initialState = lines[1];
+
+            data = lines[2].Split(' ');
+            foreach (var d in data)
+            {
+                _finalStates.Add(d);
+            }
+
+            var num = int.Parse(lines[3]);
+            var lineIndex = 4;
+
+            for (var i = 0; i < num; i++)
+            {
+                data = lines[lineIndex].Split(' ');
+                foreach (var chr in data[2])
+                {
+                    _alphabet.Add(chr.ToString());
+                    var pair = new Pair(data[0], chr.ToString());
+                    _transitions[pair] = data[1];
+                }
+                lineIndex++;
+            }
+
+            _af = new FiniteAutomata(_states, _alphabet, _transitions, _initialState, _finalStates);
         }
         catch (Exception e)
         {

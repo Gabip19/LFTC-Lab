@@ -2,7 +2,7 @@
 using namespace std;
 
 int main() {
-    float raza;
+    float raza, raze;
     cin >> raza;
 
     float pi = 3.14;
