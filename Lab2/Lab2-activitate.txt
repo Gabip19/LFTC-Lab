@@ -1,0 +1,5 @@
+AutomatFinit:
+	stari: Set<String>
+	alfabet: Set<Char>S
+	tranzitii: Map<Tuple<String, Char>, String>
+	stari_finale: Set<String>

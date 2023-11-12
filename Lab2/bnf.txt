@@ -1,0 +1,20 @@
+<fisier> ::= <lista_stari>
+            <stare_initiala>
+	    <stari_finale>
+	    <numar_tranzitii>
+	    <lista_tranzitii>
+
+<lista_stari> ::= <stare> | <stare> <lista_stari>
+<stare> ::= q<index>
+<index> ::= <CONST_NR>
+
+<stare_initiala> ::= <stare>
+<stari_finale> ::= <stare> | <stare> <stari_finale>
+
+<numar_tranzitii> ::= <CONST>
+<lista_tranzitii> ::= <tranzitie> | <tranzitie> <lista_tranzitii>
+<tranzitie> ::= <stare> <stare> <valoare>
+<valoare> ::= - | a | b | c | d | e | f | ... | z | 0 | 1 | ... | 9
+
+<CONST_NR> ::= <CONST_CIFRA> | <CONST_CIFRA><CONST_NR>
+<CONST_CIFRA> ::= 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9
