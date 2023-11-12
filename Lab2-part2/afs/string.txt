@@ -1,0 +1,7 @@
+q0 q1 q2
+q0
+q2
+3
+q0 q1 "
+q1 q1 abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 !@#$%^&*()_+-=\|':;/?.>,<
+q1 q2 "

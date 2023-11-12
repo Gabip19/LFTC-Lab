@@ -1,0 +1,37 @@
+<program> ::= <antet_program> <functie>
+<antet_program> ::= #include "<"iostream">" \n using namespace std;
+<functie> ::= <antet_functie> <corp>
+<antet_functie> ::= <tip> ID (<lista_decl>) | <tip> ID ()
+<tip> ::= int | float | string | <struct>
+<struct> ::= struct ID { <declarare_structura> } ;
+<declarare_structura> ::= <declarare> <declarare_structura> | <declarare>
+<lista_decl_fct> ::= <declarare_fct> , <lista_decl_fct> | <declarare_fct>
+<declarare_fct> ::= <tip> ID
+<corp> ::= { <instr_compusa> }
+<instr_compusa> ::= <instr> <instr_compusa> | <instr>
+<instr> ::= <declarare> | <atribuire> | <instr_citire> | <instr_afisare> | <instr_while> | <instr_if> | <instr_switch>
+<declarare> ::= <tip> ID ; | <tip> <atribuire>
+<atribuire> ::= ID = <expr_aritmetica> ;
+<instr_citire> ::= cin >> ID ;
+<instr_afisare> ::= cout << <expr_aritmetica> ;
+<expr_aritmetica> ::= <expr_aritmetica> <op_artimetic> <expr_aritmetica> | ID | CONST
+<op_artimetic> ::= + | - | * | / | %
+<instr_while> ::= while ( <conditie> ) <corp>
+<conditie> ::= <expr_aritmetica> <op_relational> <expr_aritmetica> | <expr_aritmetica>
+<op_relational> ::= != | == | < | > | <= | >=
+<instr_if> ::= if ( <conditie> ) <corp>
+<instr_switch> ::= switch ( ID ) { <lista_instr_case> }
+<lista_instr_case> ::= <instr_case> <lista_instr_case> | <instr_case>
+<instr_case> ::= case CONST : <instr_compusa> break ;
+
+ID ::= (_ | a | b | ... | z | A | B | ... | Z)(_ | a | b | ... | z | A | B | ... | Z | 0 | 1 | ... | 9 | -){0,249}
+CONST ::= <const_int> | <const_float> | <const_string>
+<const_int> ::= (+ | -)?(0 | 1 | ... | 9)+
+<const_float> ::= (+ | -)?(0 | 1 | ... | 9)+ | (+ | -)?(0 | 1 | ... | 9)+\.(0 | 1 | ... | 9)*
+<const_string> ::= ".*"
+
+ID ::= ^[_a-zA-Z]([_a-zA-Z0-9]){0,249}$
+CONST ::= <const_int> | <const_float> | <const_string>
+<const_int> ::= ^[+-]?[0-9]+$
+<const_float> ::= ^[+-]?[0-9]+(\.[0-9]*)?$
+<const_string> ::= ^".*"$

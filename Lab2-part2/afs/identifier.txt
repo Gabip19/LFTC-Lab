@@ -1,0 +1,6 @@
+q0 q1
+q0
+q1
+2
+q0 q1 _abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ
+q1 q1 _abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789
