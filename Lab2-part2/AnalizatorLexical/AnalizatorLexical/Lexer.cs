@@ -82,6 +82,7 @@ public class Lexer
             if (_separators.Contains(line[0]))
             {
                 elem = line[0].ToString();
+                Fip.Add(new KeyValuePair<int, int?>(_atomTable[elem], null));
                 valid = true;
             }
             else if (valid && elem is null && (elem = ExtractKeyword(line)) is not null)

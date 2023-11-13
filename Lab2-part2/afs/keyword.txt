@@ -2,8 +2,8 @@ q0 q1 q2 q3
 q0
 q1 q3
 5
-q0 q1 abcdefghijklmnopqrstuvwxyz#
-q1 q1 abcdefghijklmnopqrstuvwxyz0123456789
+q0 q1 abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ#
+q1 q1 abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789
 q0 q2 <
-q2 q2 abcdefghijklmnopqrstuvwxyz
+q2 q2 abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ
 q2 q3 >

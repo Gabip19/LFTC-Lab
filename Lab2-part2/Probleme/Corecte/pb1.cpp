@@ -7,7 +7,7 @@ int main() {
 
     float pi = 3.14;
 
-    float P = 2 * pi * raza;
+    float P= 2 * pi * raza;
     float A = pi * raza * raza;
 
     cout << P;
