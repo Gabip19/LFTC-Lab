@@ -67,28 +67,34 @@ public class Lexer
 
     private void ProcessLine(string line)
     {
+        var valid = true;
+
         while (line.Length > 0)
         {
             string? elem = null;
             if (char.IsWhiteSpace(line[0]))
             {
                 line = line[1..];
+                valid = true;
                 continue;
             }
             
             if (_separators.Contains(line[0]))
             {
                 elem = line[0].ToString();
+                valid = true;
             }
-            else if (elem is null && (elem = ExtractKeyword(line)) is not null)
+            else if (valid && elem is null && (elem = ExtractKeyword(line)) is not null)
             {
                 Fip.Add(new KeyValuePair<int, int?>(_atomTable[elem], null));
+                valid = false;
             }
             else if (elem is null && (elem = ExtractOperator(line)) is not null)
             {
                 Fip.Add(new KeyValuePair<int, int?>(_atomTable[elem], null));
+                valid = true;
             }
-            else if (elem is null && (elem = ExtractConstant(line)) is not null)
+            else if (valid && elem is null && (elem = ExtractConstant(line)) is not null)
             {
                 var constCode = ConstantsTable.Contains(elem);
                 if (constCode == -1)
@@ -96,8 +102,9 @@ public class Lexer
                     constCode = ConstantsTable.Add(elem);
                 }
                 Fip.Add(new KeyValuePair<int, int?>(1, constCode));
+                valid = false;
             }
-            else if (elem is null && (elem = ExtractIdentifier(line)) is not null)
+            else if (valid && elem is null && (elem = ExtractIdentifier(line)) is not null)
             {
                 var idCode = IdsTable.Contains(elem);
                 if (idCode == -1)
@@ -105,6 +112,7 @@ public class Lexer
                     idCode = IdsTable.Add(elem);
                 }
                 Fip.Add(new KeyValuePair<int, int?>(0, idCode));
+                valid = false;
             }
             else
             {
