@@ -1,0 +1,252 @@
+%{
+
+#include <string.h>
+#include <stdio.h>
+#include <stdlib.h>
+
+unsigned int hash_function(int m, char element) {
+    return (unsigned int)element % m;
+}
+
+typedef struct {
+    int capacity;
+    int size;
+    char** table;
+} TS;
+
+void initHashTable(TS* ts, int capacity) {
+    ts->capacity = capacity;
+    ts->size = 0;
+    ts->table = (char**)malloc(sizeof(char*) * capacity);
+
+    for (int i = 0; i < capacity; i++) {
+	ts->table[i] = NULL;
+    }
+}
+
+int has_item(TS* hashTable, char* item) {
+    unsigned int index = hash_function(hashTable->capacity, item[0]);
+    if (hashTable->table[index] != NULL && strcmp(hashTable->table[index], item) == 0) {
+        return index;
+    }
+
+    unsigned int newIndex = (index + 1) % hashTable->capacity;
+    while (newIndex != index) {
+        if (hashTable->table[newIndex] == NULL) {
+            return -1;
+        }
+        if (strcmp(hashTable->table[newIndex], item) == 0) {
+            return newIndex;
+        }
+        newIndex = (newIndex + 1) % hashTable->capacity;
+    }
+
+    return -1;
+}
+
+int add(TS* hashTable, char* item) {
+    int i = has_item(hashTable, item);
+    if(i != -1)
+	return i; 
+    unsigned int index = hash_function(hashTable->capacity, item[0]);
+    if (hashTable->table[index] == NULL) {
+        hashTable->table[index] = (char*)malloc(sizeof(char) * 280);
+        strcpy(hashTable->table[index], item);
+        hashTable->size++;
+        return index;
+    }
+
+    unsigned int newIndex = (index + 1) % hashTable->capacity;
+    while (newIndex != index) {
+        if (hashTable->table[newIndex] == NULL) {
+	    hashTable->table[newIndex] = (char*)malloc(sizeof(char) * 280);
+	    strcpy(hashTable->table[newIndex], item);
+            return newIndex;
+        }
+        newIndex = (newIndex + 1) % hashTable->capacity;
+    }
+
+    printf("Hash table is full\n");
+    return -1;
+}
+
+TS idsHashTable;
+TS constsHashTable;
+
+typedef struct {
+    int atomCode;
+    int posTs;
+}FIP;
+
+FIP fip[500];
+int fipLen = 0;
+
+int hasErrors = 0;
+int lineNum = 0;
+
+void addToFIP(int atomCode, int posTs) {
+    printf("%d\n", atomCode);
+    fip[fipLen].atomCode = atomCode;
+    fip[fipLen].posTs = posTs;
+    fipLen++;
+}
+
+void printTS(TS* idsHashTable, TS* constsHashTable) {
+    printf("\n===== TS-IDS =====\n\n");
+    for (int i = 0; i < idsHashTable->capacity; i++) {
+        if (idsHashTable->table[i] != NULL) {
+            printf(" %s  %d\n", idsHashTable->table[i], i);
+        }
+    }
+    printf("\n");
+
+    printf("\n===== TS-CONST =====\n\n");
+    for (int i = 0; i < constsHashTable->capacity; i++) {
+        if (constsHashTable->table[i] != NULL) {
+            printf(" %s  %d\n", constsHashTable->table[i], i);
+        }
+    }
+    printf("\n");
+}
+
+void printFIP() {
+    printf("\n===== FIP ======\n\n");
+    for (int i = 0; i < fipLen; i++) {
+	if (fip[i].posTs == -1) {
+	    printf(" %d   .", fip[i].atomCode);
+	} else {
+	    printf(" %d   %d", fip[i].atomCode, fip[i].posTs);
+	}
+        printf("\n");
+    }
+    printf("\n");
+}
+
+void freeHashTable(TS* hashTable) {
+    for (int i = 0; i < hashTable->capacity; i++) {
+	free(hashTable->table[i]);
+    }
+
+    free(hashTable->table);
+}
+
+%}
+
+%option noyywrap
+
+digit	[0-9]
+nndigit	[1-9]
+letter	[a-zA-Z_]
+number	{digit}|{nndigit}{digit}*
+letterAndDigit	{digit}|{letter}
+
+%%
+
+"("			{addToFIP(2, -1);}
+
+")"			{addToFIP(3, -1);}
+
+","			{addToFIP(4, -1);}
+
+"int"			{addToFIP(5, -1);}
+
+"float"			{addToFIP(6, -1);}
+
+"string"		{addToFIP(7, -1);}
+
+"{"			{addToFIP(8, -1);}
+
+"}"			{addToFIP(9, -1);}
+
+";"			{addToFIP(10, -1);}
+
+"="			{addToFIP(11, -1);}
+
+"cin"			{addToFIP(12, -1);}
+
+"cout"			{addToFIP(13, -1);}
+
+">>"			{addToFIP(14, -1);}
+
+"<<"			{addToFIP(15, -1);}
+
+"+"			{addToFIP(16, -1);}
+
+"-"			{addToFIP(17, -1);}
+
+"*"			{addToFIP(18, -1);}
+
+"/"			{addToFIP(19, -1);}
+
+"%"			{addToFIP(20, -1);}
+
+"while"			{addToFIP(21, -1);}
+
+"!="			{addToFIP(22, -1);}
+
+"=="			{addToFIP(23, -1);}
+
+"<"			{addToFIP(24, -1);}
+
+">"			{addToFIP(25, -1);}
+
+"<="			{addToFIP(26, -1);}
+
+">="			{addToFIP(27, -1);}
+
+"if"			{addToFIP(28, -1);}
+
+"switch"		{addToFIP(29, -1);}
+
+"case"			{addToFIP(30, -1);}
+
+":"			{addToFIP(31, -1);}
+
+"break"			{addToFIP(32, -1);}
+
+"struct"		{addToFIP(33, -1);}
+
+"#include"		{addToFIP(34, -1);}
+
+"<iostream>"		{addToFIP(35, -1);}
+
+"using"			{addToFIP(36, -1);}
+
+"namespace"		{addToFIP(37, -1);}
+
+"std"			{addToFIP(38, -1);}
+
+([+-]?{number}([.]{number})?)|(["][^"]*["])	{int index = add(&constsHashTable, yytext);  addToFIP(1, index); }
+
+{letter}({letter}|{digit}){0,249}		{int index = add(&idsHashTable, yytext);  addToFIP(0, index); }
+
+\n						{ lineNum++; }
+
+[ \t]+						;
+
+.						{ hasErrors = 1; printf("[Line %d]: Invalid token %s\n", lineNum, yytext); return 0; }
+
+%%
+
+int main(int argc, char** argv) {
+    FILE *fp;
+    fp = fopen(argv[1], "r");
+    initHashTable(&idsHashTable, 13);
+    initHashTable(&constsHashTable, 13);
+
+    yyin = fp;
+    yyrestart(yyin);
+    yylex();
+
+    if (hasErrors == 0) {
+	printFIP();
+   	printTS(&idsHashTable, &constsHashTable);
+    }
+
+    freeHashTable(&idsHashTable);
+    freeHashTable(&constsHashTable);
+
+    printf("Lines num: %d\n", lineNum);
+
+    return 0;
+}
