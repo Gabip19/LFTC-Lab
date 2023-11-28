@@ -1409,6 +1409,7 @@ int main(int argc, char** argv) {
     if (hasErrors == 0) {
         printFIP();
         printTS(&idsHashTable, &constsHashTable);
+        printf("Program corect sintactic");
     }
 
     freeHashTable(&idsHashTable);
