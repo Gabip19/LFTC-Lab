@@ -1,0 +1,120 @@
+#include <iostream>
+#include <stack>
+#include <sstream>
+
+using namespace std;
+
+std::string computeExpressionInOrder(std::stack<char>& operators, std::stack<std::string>& operands)
+{
+    char currentOp;
+
+    while (!operators.empty())
+    {
+        currentOp = operators.top();
+        operators.pop();
+
+        if (currentOp == '*')
+        {
+            string op1 = operands.top();
+            operands.pop();
+            string op2 = operands.top();
+            operands.pop();
+
+            string result = op1 + "*" + op2;
+            operands.push(result);
+
+            cout << op1 << " * " << op2 << " = " << result << endl;
+        }
+        else if (currentOp == '/')
+        {
+            string op1 = operands.top();
+            operands.pop();
+            string op2 = operands.top();
+            operands.pop();
+
+            string result = op1 + "/" + op2;
+            operands.push(result);
+
+            cout << op1 << " / " << op2 << " = " << result << endl;
+        }
+        else if (!operators.empty() && (currentOp == '+' || currentOp == '-') && (operators.top() == '*' || operators.top() == '/'))
+        {
+            char nextOp = operators.top();
+            operators.pop();
+            
+            string prev = operands.top();
+            operands.pop();
+
+            string op1 = operands.top();
+            operands.pop();
+            string op2 = operands.top();
+            operands.pop();
+
+            if (nextOp == '*')
+            {
+                string result = op1 + "*" + op2;
+                operands.push(result);
+
+                cout << op1 << " * " << op2 << " = " << result << endl;
+            }
+            else if (nextOp == '/')
+            {
+                string result = op1 + "/" + op2;
+                operands.push(result);
+
+                cout << op1 << " / " << op2 << " = " << result << endl;
+            }
+
+            operands.push(prev);
+            operators.push(currentOp);
+        }
+        else if (currentOp == '+')
+        {
+            string op1 = operands.top();
+            operands.pop();
+            string op2 = operands.top();
+            operands.pop();
+
+            string result = op1 + "+" + op2;
+            operands.push(result);
+
+            cout << op1 << " + " << op2 << " = " << result << endl;
+        }
+        else if (currentOp == '-')
+        {
+            string op1 = operands.top();
+            operands.pop();
+            string op2 = operands.top();
+            operands.pop();
+
+            string result = op1 + "-" + op2;
+            operands.push(result);
+
+            cout << op1 << " - " << op2 << " = " << result << endl;
+        }
+    }
+
+    string finalRez = operands.top();
+    operands.pop();
+    return finalRez;
+}
+
+int main() {
+    std::stack<char> operators;
+    std::stack<std::string> operands;
+
+    // Fill in the stacks with your values
+    operators.push('-');
+    operators.push('/');
+    operators.push('+');
+
+    operands.push("b");
+    operands.push("5");
+    operands.push("3");
+    operands.push("a");
+
+    std::string result = computeExpressionInOrder(operators, operands);
+    std::cout << "Computed expression: " << result << std::endl;
+
+    return 0;
+}

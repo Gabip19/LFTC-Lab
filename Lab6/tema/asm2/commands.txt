@@ -1,0 +1,2 @@
+nasm -f win32 iodemo.asm
+.\nlink.exe iodemo.obj -lio -o iodemo.exe
